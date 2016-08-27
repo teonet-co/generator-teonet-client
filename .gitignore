@@ -1,0 +1,4 @@
+node_modules
+coverage
+/nbproject/private/
+/generators/app/templates/autoscan.log
