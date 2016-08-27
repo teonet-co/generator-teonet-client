@@ -1,18 +1,59 @@
-# Linux make file
+## Process this file with automake to produce Makefile.in
 
-lib_LTLIBRARIES = libteocli.la
-teocliincludedir=$(includedir)/teocli
-nobase_teocliinclude_HEADERS = libteol0/teonet_l0_client.h
-libteocli_la_SOURCES = libteol0/teonet_l0_client.c
-libteocli_la_LDFLAGS = $(AM_LDFLAGS) -version-info 2:0:0 
-		
-noinst_PROGRAMS = teocli	
-teocli_SOURCES = src/main.c
-teocli_LDFLAGS = $(AM_LDFLAGS) -lteocli	
+include aminclude.am
 
-noinst_PROGRAMS += teocli_s	
-teocli_s_SOURCES = src/main_select.c
-teocli_s_LDFLAGS = $(AM_LDFLAGS) -lteocli	
+if DX_COND_man
 
+# You'd probably want to post-process man pages and installed the patched
+# versions.
+#man3_MANS = @DX_DOCDIR@/man/man3/teonet.c.1
+man3_MANS = @DX_DOCDIR@/man/man3/*.3
+$(man3_MANS): doxygen-doc
+DX_CLEANFILES = -rf @DX_DOCDIR@/*
+
+endif
+
+SUBDIRS = src po
+
+teonetdocdir = ${prefix}/doc/teonet
+teonetdoc_DATA = \
+	README\
+	COPYING\
+	AUTHORS\
+	ChangeLog\
+	INSTALL\
+	NEWS
+
+teonetsysconfdir = ${sysconfdir}/teonet
+
+INTLTOOL_FILES = intltool-extract.in \
+	intltool-merge.in \
+	intltool-update.in
+
+EXTRA_DIST = \
+	$(teonetdoc_DATA) \
+	$(INTLTOOL_FILES) \
+	$(DX_CONFIG)
+
+DISTCLEANFILES = intltool-extract \
+	intltool-merge \
+	intltool-update \
+	po/.intltool-merge-cache \
+	@DX_DOCDIR@
+
+MOSTLYCLEANFILES = $(DX_CLEANFILES)
+
+# Remove doc directory on un-install
 uninstall-local:
-	-rm -r $(teocliincludedir)
+	-rm -r $(teonetdocdir)
+	-rm -r $(teonetsysconfdir)
+
+run:	src/app/teovpn
+	src/app/teovpn just-make --port=9057
+
+build-tests: tests/test_teonet
+	
+build-tests: tests/test_teonet
+	
+test:	tests/test_teonet
+	tests/test_teonet

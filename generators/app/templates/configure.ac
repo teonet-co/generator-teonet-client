@@ -6,8 +6,18 @@ AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
 AC_CONFIG_SRCDIR([libteol0/teonet_l0_client.h])
 AC_CONFIG_HEADERS([config.h])
 
+AM_INIT_AUTOMAKE()
+AM_MAINTAINER_MODE
+
 # Checks for programs.
+AC_PROG_CXX
+AC_PROG_AWK
 AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PROG_RANLIB
 
 # Checks for libraries.
 # FIXME: Replace `main' with a function in `-lteocli':
@@ -29,6 +39,62 @@ AC_FUNC_MALLOC
 AC_FUNC_REALLOC
 AC_CHECK_FUNCS([ftime gethostbyname memmove memset select socket strerror])
 
-AC_CONFIG_FILES([Makefile])
+# ***************************************************************************
+# Internatinalization
+# ***************************************************************************
+GETTEXT_PACKAGE=teoroom
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
+AM_GLIB_GNU_GETTEXT
+IT_PROG_INTLTOOL([0.35.0])
+
+# ***************************************************************************
+# Documentation
+# ***************************************************************************
+
+# Checks for doxygen
+AC_CHECK_PROG(HAVE_DOXYGEN, doxygen, true, false)
+AM_CONDITIONAL(HAVE_DOXYGEN, $HAVE_DOXYGEN)
+if test $HAVE_DOXYGEN = "false"; then
+    AC_MSG_WARN([*** doxygen not found, docs will not be built])
+else
+
+DX_HTML_FEATURE(ON)
+DX_CHM_FEATURE(OFF)
+DX_CHI_FEATURE(OFF)
+DX_MAN_FEATURE(OFF)
+DX_RTF_FEATURE(OFF)
+DX_XML_FEATURE(OFF)
+DX_PDF_FEATURE(OFF)
+DX_PS_FEATURE(OFF)
+DX_INIT_DOXYGEN(["Teonet HTTP Websocket Server"], Doxyfile, docs)
+
+fi
+
+# ***************************************************************************
+# Debug
+# ***************************************************************************
+
+AC_ARG_ENABLE(debug,
+AS_HELP_STRING([--enable-debug],
+               [enable debugging, default: no]),
+[case "${enableval}" in
+             yes) debug=true ;;
+             no)  debug=false ;;
+             *)   AC_MSG_ERROR([bad value ${enableval} for --enable-debug]) ;;
+esac],
+[debug=false])
+
+AM_CONDITIONAL(DEBUG, test x"$debug" = x"true")
+
+# ***************************************************************************
+
+
+AM_PROG_LIBTOOL
+
+AC_CONFIG_FILES([
+Makefile
 src/Makefile
+po/Makefile.in
+])
 AC_OUTPUT
