@@ -48,12 +48,12 @@ fi
   }
 }
 
-(grep "^LT_INIT" $srcdir/configure.ac >/dev/null) && {
+(grep "^AM_PROG_LIBTOOL" $srcdir/configure.ac >/dev/null) && {
   (libtool --version) < /dev/null > /dev/null 2>&1 || {
     echo
     echo "**Error**: You must have \`libtool' installed."
     echo "You can get it from: ftp://ftp.gnu.org/pub/gnu/"
-    #DIE=1
+    #OCDIE=1
   }
 }
 
@@ -128,7 +128,7 @@ do
         echo "Running xml-i18n-toolize..."
 	xml-i18n-toolize --copy --force --automake
       fi
-      if grep "^LT_INIT" configure.ac >/dev/null; then
+      if grep "^AM_PROG_LIBTOOL" configure.ac >/dev/null; then
 	if test -z "$NO_LIBTOOLIZE" ; then 
 	  echo "Running libtoolize..."
 	  libtoolize --force --copy
@@ -141,16 +141,18 @@ do
 	autoheader
       fi
       echo "Running automake --gnu $am_opt ..."
-      automake --add-missing --copy --gnu $am_opt
+      automake --add-missing --gnu $am_opt
       echo "Running autoconf ..."
       autoconf
     )
   fi
 done
 
+conf_flags="--enable-maintainer-mode"
+
 if test x$NOCONFIGURE = x; then
-  echo Running $srcdir/configure "$@" ...
-  $srcdir/configure "$@" \
+  echo Running $srcdir/configure $conf_flags "$@" ...
+  $srcdir/configure $conf_flags "$@" \
   && echo Now type \`make\' to compile. || exit 1
 else
   echo Skipping configure process.

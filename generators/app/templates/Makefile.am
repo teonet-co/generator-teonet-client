@@ -2,21 +2,35 @@
 
 include aminclude.am
 
+#DX_CLEANFILES =
+
 if DX_COND_man
 
 # You'd probably want to post-process man pages and installed the patched
 # versions.
-#man3_MANS = @DX_DOCDIR@/man/man3/teonet.c.1
 man3_MANS = @DX_DOCDIR@/man/man3/*.3
 $(man3_MANS): doxygen-doc
 DX_CLEANFILES = -rf @DX_DOCDIR@/*
 
 endif
 
+if DX_COND_html
+
+teohwsdatarootdocdir = $(datarootdir)/doc/@PACKAGE@
+doxydocdir = $(datarootdir)/doc/@PACKAGE@/html
+doxydoc_DATA = $(wildcard docs/html/*.*)
+
+doxydoc_searchdir = $(datarootdir)/doc/@PACKAGE@/html/search
+doxydoc_search_DATA = $(wildcard docs/html/search/*.*)
+
+DX_CLEANFILES = -rf @DX_DOCDIR@/*
+
+endif
+
 SUBDIRS = src po
 
-teonetdocdir = ${prefix}/doc/teonet
-teonetdoc_DATA = \
+<%= name %>docdir = ${prefix}/doc/@PACKAGE@
+<%= name %>doc_DATA = \
 	README\
 	COPYING\
 	AUTHORS\
@@ -24,36 +38,18 @@ teonetdoc_DATA = \
 	INSTALL\
 	NEWS
 
-teonetsysconfdir = ${sysconfdir}/teonet
-
 INTLTOOL_FILES = intltool-extract.in \
 	intltool-merge.in \
 	intltool-update.in
 
-EXTRA_DIST = \
-	$(teonetdoc_DATA) \
-	$(INTLTOOL_FILES) \
-	$(DX_CONFIG)
+EXTRA_DIST = $(<%= name %>doc_DATA) \
+	$(INTLTOOL_FILES)
 
 DISTCLEANFILES = intltool-extract \
 	intltool-merge \
 	intltool-update \
-	po/.intltool-merge-cache \
-	@DX_DOCDIR@
+	po/.intltool-merge-cache
 
-MOSTLYCLEANFILES = $(DX_CLEANFILES)
-
-# Remove doc directory on un-install
+# Remove doc directory on uninstall
 uninstall-local:
-	-rm -r $(teonetdocdir)
-	-rm -r $(teonetsysconfdir)
-
-run:	src/app/teovpn
-	src/app/teovpn just-make --port=9057
-
-build-tests: tests/test_teonet
-	
-build-tests: tests/test_teonet
-	
-test:	tests/test_teonet
-	tests/test_teonet
+	-rm -r $(<%= name %>docdir)

@@ -1,11 +1,15 @@
-#                                               -*- Autoconf -*-
+#
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([FULL-PACKAGE-NAME], [VERSION], [BUG-REPORT-ADDRESS])
-AC_CONFIG_SRCDIR([libteol0/teonet_l0_client.h])
-AC_CONFIG_HEADERS([config.h])
+AC_INIT(<%= name %>, <%= version %>, [<%= email %>])
+AC_DEFINE([PACKAGE_DESCRIPTION], ["<%= description %> application"], [Application description])
+AC_DEFINE([PACKAGE_DEPENDENCIES], ["libteonet-dev"], [Application dependencies])
+AC_CONFIG_SRCDIR([src/main.c])
+AC_CONFIG_HEADERS([src/config.h])
 
+m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+#AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_INIT_AUTOMAKE()
 AM_MAINTAINER_MODE
 
@@ -20,29 +24,21 @@ AC_PROG_MAKE_SET
 AC_PROG_RANLIB
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lteocli':
-AC_CHECK_LIB([teocli], [main])
+AC_CHECK_LIB([teonet], [ksnetEvMgrInitPort])
+AC_CHECK_LIB([crypto], [OPENSSL_config])
 
 # Checks for header files.
-AC_CHECK_HEADERS([arpa/inet.h fcntl.h netdb.h netinet/in.h stdint.h stdlib.h string.h sys/socket.h sys/timeb.h unistd.h])
+AC_CHECK_HEADERS([stdlib.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_TYPE_INT16_T
 AC_TYPE_SIZE_T
-AC_TYPE_SSIZE_T
-AC_TYPE_UINT16_T
-AC_TYPE_UINT32_T
-AC_TYPE_UINT8_T
 
 # Checks for library functions.
-AC_FUNC_MALLOC
-AC_FUNC_REALLOC
-AC_CHECK_FUNCS([ftime gethostbyname memmove memset select socket strerror])
 
 # ***************************************************************************
 # Internatinalization
 # ***************************************************************************
-GETTEXT_PACKAGE=teoroom
+GETTEXT_PACKAGE=<%= name %>
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 AM_GLIB_GNU_GETTEXT
@@ -59,7 +55,7 @@ if test $HAVE_DOXYGEN = "false"; then
     AC_MSG_WARN([*** doxygen not found, docs will not be built])
 else
 
-DX_HTML_FEATURE(ON)
+DX_HTML_FEATURE(OFF)
 DX_CHM_FEATURE(OFF)
 DX_CHI_FEATURE(OFF)
 DX_MAN_FEATURE(OFF)
@@ -67,7 +63,7 @@ DX_RTF_FEATURE(OFF)
 DX_XML_FEATURE(OFF)
 DX_PDF_FEATURE(OFF)
 DX_PS_FEATURE(OFF)
-DX_INIT_DOXYGEN(["Teonet HTTP Websocket Server"], Doxyfile, docs)
+DX_INIT_DOXYGEN([<%= name %>], Doxyfile, docs)
 
 fi
 
@@ -89,12 +85,13 @@ AM_CONDITIONAL(DEBUG, test x"$debug" = x"true")
 
 # ***************************************************************************
 
-
 AM_PROG_LIBTOOL
 
-AC_CONFIG_FILES([
+
+# PKG_CHECK_MODULES(<%= name_upper %>, [glib-2.0 ])
+
+AC_OUTPUT([
 Makefile
 src/Makefile
 po/Makefile.in
 ])
-AC_OUTPUT
