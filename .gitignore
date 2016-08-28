@@ -1,5 +1,7 @@
 node_modules
 coverage
+.dirstamp
+.deps
 /nbproject/private/
 /generators/app/templates/autoscan.log
 /generators/app/templates/autom4te.cache/traces.0
@@ -26,3 +28,5 @@ coverage
 /generators/app/templates/Makefile.in
 /generators/app/templates/po/Makefile.in.in
 /generators/app/templates/src/Makefile.in
+/generators/app/templates/libteol0/teonet_l0_client.lo
+/generators/app/templates/libteol0/teonet_l0_client.o

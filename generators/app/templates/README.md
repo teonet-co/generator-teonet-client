@@ -1,6 +1,9 @@
-To make this application application and Teonet L0 client library under Linux 
+# <%= description %>
+
+To make this application and Teonet L0 client library under Linux 
 use command line:
 
+    ./autogen.sh
     make
 
 To run "teocli" example application use command line:
@@ -15,7 +18,7 @@ where:
     teostream - name of teonet application to send message to
     "Hello world!" - message to send
 
-Call from Internet:
+Call to Internet:
 
     ./teocli C5 gt1.kekalan.net 9010 ps-server Hello
     ./teocli C5 gt1.kekalan.net 9010 teo-gbs Hello

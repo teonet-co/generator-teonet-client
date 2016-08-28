@@ -7,16 +7,16 @@ module.exports = yeoman.Base.extend({
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the tiptop ' + chalk.red('TEONET-CLIENT-NODE') + ' generator!'
+      'Welcome to the tiptop ' + chalk.red('TEONET-CLIENT') + ' generator!'
     ));
-    
+
     //Get array of inputs from the user
     var prompts = [
     {
         type: 'input',
         name: 'name',
         message: 'What would you love to name this project (lowercase name of application executable file)?',
-        default: 'teoclinode' //this.appname
+        default: 'teocli' //this.appname
     },
     {
         type: 'input',
@@ -29,7 +29,7 @@ module.exports = yeoman.Base.extend({
         type: 'input',
         name: 'description',
         message: 'Please describe the project',
-        default: "Teonet client node.js application"
+        default: "Teonet client C native"
     },
     {
         type: 'input',
