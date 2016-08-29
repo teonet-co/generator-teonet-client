@@ -8,7 +8,7 @@ use command line:
 
 To run "teocli" example application use command line:
 
-    ./teocli C5 10.12.35.53 9000 teostream "Hello world!"
+    src/teocli C5 10.12.35.53 9000 teostream "Hello world!"
 
 where:
 
@@ -18,12 +18,12 @@ where:
     teostream - name of teonet application to send message to
     "Hello world!" - message to send
 
-Call to Internet:
+Call from Internet:
 
-    ./teocli C5 gt1.kekalan.net 9010 ps-server Hello
-    ./teocli C5 gt1.kekalan.net 9010 teo-gbs Hello
-    ./teocli C5 gt1.kekalan.net 9010 teonet-11 Hello
-    ./teocli C5 gt1.kekalan.net 9010 teonet-17 Hello
+    src/teocli C5 gt1.kekalan.net 9010 ps-server Hello
+    src/teocli C5 gt1.kekalan.net 9010 teo-gbs Hello
+    src/teocli C5 gt1.kekalan.net 9010 teonet-11 Hello
+    src/teocli C5 gt1.kekalan.net 9010 teonet-17 Hello
 
 Build teocli shared librare and example in command line:
 
