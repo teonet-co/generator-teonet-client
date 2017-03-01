@@ -1,6 +1,6 @@
 {
   "name": "generator-teonet-client",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Teonet client native C application generator",
   "author": {
     "name": "Kirill Scherba",
