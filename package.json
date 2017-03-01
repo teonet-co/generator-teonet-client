@@ -1,8 +1,7 @@
 {
   "name": "generator-teonet-client",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Teonet client native C application generator",
-  "homepage": "https://gitlab.ksproject.org/teonet/generator-teonet-client",
   "author": {
     "name": "Kirill Scherba",
     "email": "kirill@scherba.ru",
