@@ -1,6 +1,6 @@
 {
   "name": "generator-teonet-client",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Teonet client native C application generator",
   "homepage": "https://gitlab.ksproject.org/teonet/generator-teonet-client",
   "author": {
@@ -42,7 +42,10 @@
       "mocha": true
     }
   },
-  "repository": "/generator-teonet-client",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.ksproject.org/teonet/generator-teonet-client.git"
+  },
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"
